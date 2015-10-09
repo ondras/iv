@@ -20,46 +20,6 @@
 	</head>
 	<body>
 		<img />
-		<script>
-			var adapter = require("./js/adapter");
-			var img = document.querySelector("img");
-
-			window.addEventListener("keydown", function(e) {
-				switch (e.keyCode) {
-					case 27:
-						window.close();
-					break;
-
-					case 123:
-						adapter.showDevTools();
-					break;
-				}
-			});
-
-			var fit = function() {
-				var size = [img.naturalWidth, img.naturalHeight];
-				var avail = adapter.getWindowSize();
-				var ratio = [size[0]/avail[0], size[1]/avail[1]];
-				var max = Math.max(ratio[0], ratio[1]);
-
-				if (max >= 1) { /* scale down */
-					size[0] = Math.round(size[0]/max);
-					size[1] = Math.round(size[1]/max);
-					img.width = size[0];
-					img.height = size[1];
-				} else { /* center */
-				}
-				img.style.left = (avail[0]-size[0])/2 + "px";
-				img.style.top = (avail[1]-size[1])/2 + "px";
-				img.style.display = "block";
-			}
-
-			var argv = adapter.argv;
-			if (argv.length > 0) {
-				adapter.setFullscreen(true);
-				img.src = argv[0];
-				img.onload = fit;
-			}
-		</script>
+		<script>require("./js/app");</script>
 	</body>
 </html>
