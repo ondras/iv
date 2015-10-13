@@ -2,7 +2,7 @@ var adapter = require("./adapter");
 var list = require("./list");
 var image = require("./image");
 
-var handler = function(e) {
+var keyHandler = function(e) {
 	switch (e.keyCode) {
 		case 27:
 			window.close();
@@ -39,7 +39,25 @@ var handler = function(e) {
 	}
 };
 
-exports.init = function() {
-	window.addEventListener("keydown", handler);
+var charHandler = function(e) {
+	var ch = String.fromCharCode(e.charCode);
+
+	switch (ch) {
+		case "+":
+			image.zoomIn();
+		break;
+
+		case "-":
+			image.zoomOut();
+		break;
+
+		case "*":
+			image.zoomFit();
+		break;
+	}
 }
 
+exports.init = function() {
+	window.addEventListener("keydown", keyHandler);
+	window.addEventListener("keypress", charHandler);
+}

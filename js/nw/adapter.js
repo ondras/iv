@@ -1,4 +1,3 @@
-//var gui = require("nw.gui");
 var gui = window.nwDispatcher.nwGui;
 
 exports.showDevTools = function() {
