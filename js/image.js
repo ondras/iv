@@ -2,6 +2,7 @@ var adapter = require("./adapter");
 var node = window.document.querySelector("img");
 
 var scale = 1;
+var magnifier = new (require("./magnifier").Magnifier)(node);
 
 var zoom = function() {
 	var avail = adapter.getWindowSize();
@@ -42,6 +43,10 @@ exports.load = function(url) {
 
 exports.getUrl = function() {
 	return node.src;
+}
+
+exports.getScale = function() {
+	return scale;
 }
 
 node.onload = exports.zoomFit;
