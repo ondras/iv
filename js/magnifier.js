@@ -1,5 +1,3 @@
-var image = require("./image");
-
 var Magnifier = function(image) {
 	this._image = image;
 	var R = 150;
@@ -9,7 +7,7 @@ var Magnifier = function(image) {
 	this._canvas.style.transform = "translate(-50%, -50%)";
 	this._canvas.width = this._canvas.height = 2*R;
 	
-	this._image.addEventListener("mousedown", this);
+	this._image.getNode().addEventListener("mousedown", this);
 }
 
 Magnifier.prototype.handleEvent = function(e) {
@@ -17,11 +15,11 @@ Magnifier.prototype.handleEvent = function(e) {
 		case "mousedown":
 			e.preventDefault(); // no drag'n' drop
 			
-			if (image.getScale() >= 1) { return; }
+			if (this._image.getScale() >= 1) { return; }
 			window.addEventListener("mousemove", this);
 			window.addEventListener("mouseup", this);
 			
-			this._image.parentNode.appendChild(this._canvas);
+			this._image.getNode().parentNode.appendChild(this._canvas);
 			this._showAtEvent(e);
 		break;
 
@@ -39,8 +37,9 @@ Magnifier.prototype.handleEvent = function(e) {
 }
 
 Magnifier.prototype._showAtEvent = function(e) {
-	var imageRect = this._image.getBoundingClientRect();
-	var parentRect = this._image.parentNode.getBoundingClientRect();
+	var imageNode = this._image.getNode();
+	var imageRect = imageNode.getBoundingClientRect();
+	var parentRect = imageNode.parentNode.getBoundingClientRect();
 	 
 	var x = e.clientX - parentRect.left;
 	var y = e.clientY - parentRect.top;
@@ -48,7 +47,7 @@ Magnifier.prototype._showAtEvent = function(e) {
 	this._canvas.style.top = y + "px";
 	
 	var ctx = this._canvas.getContext("2d");
-	var scale = image.getScale();
+	var scale = this._image.getScale();
 	var sx = Math.round((e.clientX - imageRect.left) / scale);
 	var sy = Math.round((e.clientY - imageRect.top) / scale);
 	
@@ -59,7 +58,7 @@ Magnifier.prototype._showAtEvent = function(e) {
 	ctx.fill();
 	ctx.globalCompositeOperation = "source-in";
 
-	ctx.drawImage(this._image, 
+	ctx.drawImage(this._image.getNode(), 
 		sx-R, sy-R, 2*R, 2*R,
 		0, 0, 2*R, 2*R
 	);

@@ -1,13 +1,28 @@
 var path = require("path");
 var fs = require("fs");
+var Image = require("./image").Image;
 
 var extensions = ["jpg", "jpeg", "png", "gif", "svg"];
 var files = [];
+var node = window.document.querySelector("#list");
 
-var onReaddir = function(err, items) {
+var filterItems = function(items, dir) {
 	files = items.filter(function(item) {
 		var ext = path.extname(item).slice(1).toLowerCase();
 		return extensions.indexOf(ext) > -1;
+	}).map(function(item) {
+		return path.join(dir, item);
+	});
+
+	node.innerHTML = "";
+	files.forEach(function(file) {
+		var wrap = window.document.createElement("div");
+		node.appendChild(wrap);
+
+		var img = new Image().load(file);
+		wrap.appendChild(img.getNode());
+		
+		img.zoomFit();
 	});
 }
 
@@ -45,7 +60,9 @@ exports.getNext = function(url) {
 	}
 }
 
-exports.init = function(url) {
-	var dir = path.dirname(url);
-	fs.readdir(dir, onReaddir);
+exports.init = function(dir) {
+	console.log(dir);
+	fs.readdir(dir, function(err, items) {
+		filterItems(items, dir);
+	});
 }

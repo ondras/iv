@@ -1,6 +1,6 @@
 var adapter = require("./adapter");
 var list = require("./list");
-var image = require("./image");
+var image = require("./fullImage").image;
 
 var keyHandler = function(e) {
 	switch (e.keyCode) {

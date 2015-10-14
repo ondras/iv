@@ -1,52 +1,67 @@
 var adapter = require("./adapter");
-var node = window.document.querySelector("img");
 
-var scale = 1;
-var magnifier = new (require("./magnifier").Magnifier)(node);
+var Image = function() {
+	this._scale = 1;
+	this._node = window.document.createElement("img");
 
-var zoom = function() {
-	var avail = adapter.getWindowSize();
+	this._node.style.display = "none";
+	this._node.onload = function(e) { // FIXME event leak
+		this.zoomFit(); 
+		this._node.style.display = "";
+	}.bind(this);
+}
+
+Image.prototype.getNode = function() {
+	return this._node;
+}
+
+Image.prototype.load = function(url) {
+	this._node.src = url;
+	return this;
+}
+
+Image.prototype.zoomFit = function() {
+	var parent = this._node.parentNode;
+	var avail = [parent.offsetWidth, parent.offsetHeight];
+	var size = [this._node.naturalWidth, this._node.naturalHeight];
+	var ratio = [avail[0]/size[0], avail[1]/size[1]];
+	this._scale = Math.min(1, ratio[0], ratio[1]);
+	return this._doZoom();
+}
+
+Image.prototype._doZoom = function() {
+	var parent = this._node.parentNode;
+	var avail = [parent.offsetWidth, parent.offsetHeight];
 
 	var size = [
-		Math.round(scale * node.naturalWidth),
-		Math.round(scale * node.naturalHeight)
+		Math.round(this._scale * this._node.naturalWidth),
+		Math.round(this._scale * this._node.naturalHeight)
 	];
 
-	node.width = size[0];
-	node.height = size[1];
-	node.style.left = (avail[0]-size[0])/2 + "px";
-	node.style.top = (avail[1]-size[1])/2 + "px";
-	node.style.display = "block";
+	this._node.width = size[0];
+	this._node.height = size[1];
+	this._node.style.left = (avail[0]-size[0])/2 + "px";
+	this._node.style.top = (avail[1]-size[1])/2 + "px";
+
+	return this;
 }
 
-exports.zoomFit = function() {
-	var size = [node.naturalWidth, node.naturalHeight];
-	var avail = adapter.getWindowSize();
-	var ratio = [avail[0]/size[0], avail[1]/size[1]];
-	scale = Math.min(1, ratio[0], ratio[1]);
-	zoom();
+Image.prototype.zoomIn = function() {
+	this._scale *= 2;
+	return this._doZoom();
 }
 
-exports.zoomIn = function() {
-	scale *= 2;
-	zoom();
+Image.prototype.zoomOut = function() {
+	this._scale /= 2;
+	return this._doZoom();
 }
 
-exports.zoomOut = function() {
-	scale /= 2;
-	zoom();
+Image.prototype.getUrl = function() {
+	return this._node.src;
 }
 
-exports.load = function(url) {
-	node.src = url;
+Image.prototype.getScale = function() {
+	return this._scale;
 }
 
-exports.getUrl = function() {
-	return node.src;
-}
-
-exports.getScale = function() {
-	return scale;
-}
-
-node.onload = exports.zoomFit;
+exports.Image = Image;

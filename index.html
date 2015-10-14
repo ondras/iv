@@ -2,25 +2,39 @@
 <html>
 	<head>
 		<meta charset="utf-8" />
-		<title>FIXME</title>
+		<title>Image Viewer</title>
 		<style>
-			html {
-				background-color: #000;
+			html, body {
+				height: 100%;
 			}
-
+			
 			body {
 				margin: 0;
 				overflow: hidden;
 			}
 
+			#full {
+				background-color: #000;
+				width: 100%;
+				height: 100%;
+			}
+
 			img {
 				position: absolute;
-				display: none;
+			}
+			
+			#list div {
+				position: relative;
+				float: left;
+				width: 200px;
+				height: 150px;
 			}
 		</style>
 	</head>
 	<body>
-		<img />
+		<section id="list"></section>
+		<section id="full"></section>
+
 		<script>require("./js/app");</script>
 	</body>
 </html>
