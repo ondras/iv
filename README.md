@@ -32,7 +32,7 @@ The main goal here is to **learn** how to develop a native app using Web technol
 
 ## FAQ
 
-#### No ES?
+#### No ES6/ES2015?
 There is a limited ES6 support in Electron, but almost none in nw.js. Once nw.js 0.13 (with recent V8) is out, the code will be re-written in ES6.
 
 #### Only one FAQ question?
