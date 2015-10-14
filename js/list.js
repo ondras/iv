@@ -21,8 +21,6 @@ var filterItems = function(items, dir) {
 
 		var img = new Image().load(file);
 		wrap.appendChild(img.getNode());
-		
-		img.zoomFit();
 	});
 }
 
@@ -61,7 +59,6 @@ exports.getNext = function(url) {
 }
 
 exports.init = function(dir) {
-	console.log(dir);
 	fs.readdir(dir, function(err, items) {
 		filterItems(items, dir);
 	});

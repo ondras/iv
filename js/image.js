@@ -6,6 +6,7 @@ var Image = function() {
 
 	this._node.style.display = "none";
 	this._node.onload = function(e) { // FIXME event leak
+		console.log("onload", window.innerWidth, window.innerHeight);
 		this.zoomFit(); 
 		this._node.style.display = "";
 	}.bind(this);

@@ -16,6 +16,16 @@ var showScreen = function(id) {
 	adapter.setFullscreen(id == "full");
 }
 
+/*
+window.nwDispatcher.nwGui.Window.get().on('enter-fullscreen', function() {
+	console.log("enter-fullscreen", window.innerWidth, window.innerHeight);
+});
+
+window.addEventListener('resize', function(e) {
+	console.log(e.type, window.innerWidth, window.innerHeight);
+});
+*/
+
 var argv = adapter.argv;
 if (argv.length > 0) {
 	try {
