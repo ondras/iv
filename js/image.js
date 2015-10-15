@@ -3,13 +3,6 @@ var adapter = require("./adapter");
 var Image = function() {
 	this._scale = 1;
 	this._node = window.document.createElement("img");
-
-	this._node.style.display = "none";
-	this._node.onload = function(e) { // FIXME event leak
-		console.log("onload", window.innerWidth, window.innerHeight);
-		this.zoomFit(); 
-		this._node.style.display = "";
-	}.bind(this);
 }
 
 Image.prototype.getNode = function() {
@@ -18,6 +11,14 @@ Image.prototype.getNode = function() {
 
 Image.prototype.load = function(url) {
 	this._node.src = url;
+
+	this._node.style.display = "none";
+	this._node.onload = function(e) {
+		e.target.onload = null;
+		e.target.style.display = "";
+		this.zoomFit(); 
+	}.bind(this);
+
 	return this;
 }
 

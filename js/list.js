@@ -1,10 +1,19 @@
 var path = require("path");
 var fs = require("fs");
+var fullImage = require("./fullImage");
 var Image = require("./image").Image;
 
+var node = window.document.querySelector("#list");
 var extensions = ["jpg", "jpeg", "png", "gif", "svg"];
 var files = [];
-var node = window.document.querySelector("#list");
+var isActive = false;
+
+node.addEventListener("click", function(e) {
+	var target = e.target;
+	if (target.src) {
+		fullImage.activate(target.src);
+	}
+})
 
 var filterItems = function(items, dir) {
 	files = items.filter(function(item) {
@@ -14,6 +23,11 @@ var filterItems = function(items, dir) {
 		return path.join(dir, item);
 	});
 
+	if (isActive) { buildThumbs(); }
+
+}
+
+var buildThumbs = function() {
 	node.innerHTML = "";
 	files.forEach(function(file) {
 		var wrap = window.document.createElement("div");
@@ -58,8 +72,21 @@ exports.getNext = function(url) {
 	}
 }
 
-exports.init = function(dir) {
+exports.load = function(dir) {
 	fs.readdir(dir, function(err, items) {
 		filterItems(items, dir);
 	});
+}
+
+exports.activate = function() {
+	fullImage.deactivate();
+
+	isActive = true;
+	node.style.display = "";
+	buildThumbs();
+}
+
+exports.deactivate = function() {
+	isActive = false;
+	node.style.display = "none";
 }
