@@ -2,6 +2,11 @@ var adapter = require("./adapter");
 var fullImage = require("./fullImage");
 var list = require("./list");
 var fs = require("fs");
+var register = require("./register").register;
+
+register("devtools", "f12", function() {
+	adapter.showDevTools();
+});
 
 var argv = adapter.argv;
 if (argv.length > 0) {
@@ -19,8 +24,7 @@ if (argv.length > 0) {
 		break;
 		
 		case stat.isDirectory():
-			list.activate();
-			list.load(argv[0]);
+			list.activate(argv[0]);
 		break;
 		
 		default:
@@ -30,5 +34,5 @@ if (argv.length > 0) {
 	}
 
 } else {
-	// FIXME open _some_ directory
+	list.activate();
 }
