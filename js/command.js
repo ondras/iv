@@ -1,18 +1,28 @@
 var registry = {};
 
-exports.define = function(command, func) {
+exports.register = function(command, func) {
 	registry[command] = {
 		func: func,
 		enabled: true
 	};
+
+	return command;
 }
 
 exports.enable = function(command) {
-	registry[command].enabled = true;
+	Object.keys(registry).filter(function(c) {
+		return c.match(command);
+	}).forEach(function(c) {
+		registry[c].enabled = true;
+	});
 }
 
 exports.disable = function(command) {
-	registry[command].enabled = false;
+	Object.keys(registry).filter(function(c) {
+		return c.match(command);
+	}).forEach(function(c) {
+		registry[c].enabled = false;
+	});
 }
 
 exports.isEnabled = function(command) {

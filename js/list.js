@@ -1,5 +1,5 @@
-var path = require("path");
 var fs = require("fs");
+var path = require("path");
 var fullImage = require("./fullImage");
 var Image = require("./image").Image;
 
@@ -22,9 +22,9 @@ var filterItems = function(items, dir) {
 	}).map(function(item) {
 		return path.join(dir, item);
 	});
+	console.log(files);
 
 	if (isActive) { buildThumbs(); }
-
 }
 
 var buildThumbs = function() {
@@ -46,11 +46,10 @@ exports.getLast = function() {
 	return files[files.length-1];
 } 
 
-exports.getPrev = function(url) {
+exports.getPrev = function(path) {
 	if (!files.length) { return null; }
 
-	var name = path.basename(url);
-	var index = files.indexOf(name);
+	var index = files.indexOf(path);
 	if (index > -1) {
 		if (index == 0) { return null; }
 		return files[index-1];
@@ -59,11 +58,10 @@ exports.getPrev = function(url) {
 	}
 }
 
-exports.getNext = function(url) {
+exports.getNext = function(path) {
 	if (!files.length) { return null; }
 
-	var name = path.basename(url);
-	var index = files.indexOf(name);
+	var index = files.indexOf(path);
 	if (index > -1) {
 		if (index == files.length-1) { return null; }
 		return files[index+1];
@@ -73,6 +71,7 @@ exports.getNext = function(url) {
 }
 
 exports.load = function(dir) {
+	dir = path.resolve(dir);
 	fs.readdir(dir, function(err, items) {
 		filterItems(items, dir);
 	});

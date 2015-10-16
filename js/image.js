@@ -1,3 +1,4 @@
+var url = require("url");
 var adapter = require("./adapter");
 
 var Image = function() {
@@ -9,8 +10,9 @@ Image.prototype.getNode = function() {
 	return this._node;
 }
 
-Image.prototype.load = function(url) {
-	this._node.src = url;
+Image.prototype.load = function(path) {
+	if (path == this.getPath()) { return; }
+	this._node.src = path;
 
 	this._node.style.display = "none";
 	this._node.onload = function(e) {
@@ -58,8 +60,8 @@ Image.prototype.zoomOut = function() {
 	return this._doZoom();
 }
 
-Image.prototype.getUrl = function() {
-	return this._node.src;
+Image.prototype.getPath = function() {
+	return url.parse(this._node.src).path;
 }
 
 Image.prototype.getScale = function() {
