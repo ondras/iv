@@ -1,5 +1,5 @@
 var full = require("./full");
-var Image = require("../image/base").Image;
+var Image = require("../image/thumb").Image;
 var register = require("../register").register;
 var command = require("../command");
 var directory = require("../directory");

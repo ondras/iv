@@ -11,27 +11,32 @@ Image.prototype.getNode = function() {
 Image.prototype.load = function(path) {
 	this._path = path;
 	this._node.onload = this._onLoad.bind(this);
+	this._node.style.display = "none";
 	this._node.src = path;
 	return this;
 }
 
 Image.prototype.zoomFit = function() {
-	var parent = this._node.parentNode;
-	var avail = [parent.offsetWidth, parent.offsetHeight];
+	var avail = this._getAvailableSize();
 	var size = [this._node.naturalWidth, this._node.naturalHeight];
 	var ratio = [avail[0]/size[0], avail[1]/size[1]];
 	this._scale = Math.min(1, ratio[0], ratio[1]);
 	return this._doZoom();
 }
 
+Image.prototype._getAvailableSize = function() {
+	var parent = this._node.parentNode;
+	return [parent.offsetWidth, parent.offsetHeight]
+}
+
 Image.prototype._onLoad = function(e) {
 	this._node.onload = null;
 	this.zoomFit(); 
+	this._node.style.display = "";
 }
 
 Image.prototype._doZoom = function() {
-	var parent = this._node.parentNode;
-	var avail = [parent.offsetWidth, parent.offsetHeight];
+	var avail = this._getAvailableSize();
 
 	var size = [
 		Math.round(this._scale * this._node.naturalWidth),
