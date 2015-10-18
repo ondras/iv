@@ -1,7 +1,5 @@
-var url = require("url");
-var adapter = require("./adapter");
-
 var Image = function() {
+	this._path = "";
 	this._scale = 1;
 	this._node = window.document.createElement("img");
 }
@@ -11,16 +9,9 @@ Image.prototype.getNode = function() {
 }
 
 Image.prototype.load = function(path) {
-	if (path == this.getPath()) { return; }
+	this._path = path;
+	this._node.onload = this._onLoad.bind(this);
 	this._node.src = path;
-
-	this._node.style.display = "none";
-	this._node.onload = function(e) {
-		e.target.onload = null;
-		e.target.style.display = "";
-		this.zoomFit(); 
-	}.bind(this);
-
 	return this;
 }
 
@@ -31,6 +22,11 @@ Image.prototype.zoomFit = function() {
 	var ratio = [avail[0]/size[0], avail[1]/size[1]];
 	this._scale = Math.min(1, ratio[0], ratio[1]);
 	return this._doZoom();
+}
+
+Image.prototype._onLoad = function(e) {
+	this._node.onload = null;
+	this.zoomFit(); 
 }
 
 Image.prototype._doZoom = function() {
@@ -61,7 +57,7 @@ Image.prototype.zoomOut = function() {
 }
 
 Image.prototype.getPath = function() {
-	return url.parse(this._node.src).path;
+	return this._path;
 }
 
 Image.prototype.getScale = function() {

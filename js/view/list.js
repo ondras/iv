@@ -1,8 +1,8 @@
-var fullImage = require("./fullImage");
-var Image = require("./image").Image;
-var register = require("./register").register;
-var command = require("./command");
-var directory = require("./directory");
+var full = require("./full");
+var Image = require("../image/base").Image;
+var register = require("../register").register;
+var command = require("../command");
+var directory = require("../directory");
 
 var node = window.document.querySelector("#list");
 var isActive = false;
@@ -18,7 +18,7 @@ function handler(e) {
 		break;
 
 		case "dblclick":
-			fullImage.activate(node.dataset.path);
+			full.activate(node.dataset.path);
 		break;
 	}
 }
@@ -40,7 +40,7 @@ function buildThumbs(files) {
 
 
 exports.activate = function(path) {
-	fullImage.deactivate();
+	full.deactivate();
 	command.enable(/^list:/);
 
 	isActive = true;

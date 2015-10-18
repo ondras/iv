@@ -1,12 +1,11 @@
-var adapter = require("./adapter");
+var toolkit = require("../toolkit");
 var path = require("path");
 var list = require("./list");
-var directory = require("./directory");
-var register = require("./register").register;
-var command = require("./command");
+var directory = require("../directory");
+var register = require("../register").register;
+var command = require("../command");
 
-var image = new (require("./image").Image)();
-new (require("./magnifier").Magnifier)(image);
+var image = new (require("../image/full").Image)();
 
 var node = window.document.querySelector("#full");
 node.appendChild(image.getNode());
@@ -19,7 +18,7 @@ exports.activate = function(imagePath) {
 	list.deactivate();
 	command.enable(/^full:/);
 
-	adapter.setFullscreen(true);
+	toolkit.setFullscreen(true);
 	node.style.display = "";
 
 	image.load(imagePath);
@@ -29,7 +28,7 @@ exports.activate = function(imagePath) {
 exports.deactivate = function() {
 	command.disable(/^full:/);
 	node.style.display = "none";
-	adapter.setFullscreen(false);
+	toolkit.setFullscreen(false);
 }
 
 register("full:close", "esc", function() {
