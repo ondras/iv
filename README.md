@@ -13,8 +13,10 @@ The main goal here is to **learn** how to develop a native app using Web technol
   - [x] Mouse magnifier
   - [ ] Panning
 - [x] Grid-based directory viewing
+  - [ ] Keyboard controls
+  - [ ] Image file info
+  - [ ] EXIF
 - [ ] Filesystem traversal/tree
-- [ ] EXIF
 - [ ] Clipboard support
 - [ ] Image operations
   - [ ] File operations (rename, delete, ...)

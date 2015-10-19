@@ -10,7 +10,7 @@ var Image = function() {
 	this._name = window.document.createElement("figcaption");
 	this._wrap.appendChild(this._name);
 }
-Image.prototype = Object.create(Base.prototype);
+Object.assign(Image.prototype, Base.prototype);
 
 Image.prototype.getNode = function() {
 	return this._wrap;
@@ -22,6 +22,14 @@ Image.prototype.load = function(imagePath) {
 	this._name.appendChild(window.document.createTextNode(base));
 	
 	return Base.prototype.load.call(this, imagePath);
+}
+
+Image.prototype.focus = function() {
+	this._wrap.classList.add("focus");
+}
+
+Image.prototype.blur = function() {
+	this._wrap.classList.remove("focus");
 }
 
 Image.prototype._getAvailableSize = function() {

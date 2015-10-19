@@ -31,6 +31,10 @@ exports.deactivate = function() {
 	toolkit.setFullscreen(false);
 }
 
+exports.getPath = function() {
+	return image.getPath();
+}
+
 register("full:close", "esc", function() {
 	window.close();
 });

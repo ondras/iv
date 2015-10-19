@@ -8,7 +8,7 @@ app.on("window-all-closed", function() {
 });
 
 app.on("ready", function() {
-	var win = new BrowserWindow({width: 800, height: 600});
+	var win = new BrowserWindow({width: 800, height: 600, fullscreen:true});
 	win.setMenu(null);
 	win.loadUrl('file://' + __dirname + '/../../index.html');
 });

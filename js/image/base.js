@@ -26,7 +26,7 @@ Image.prototype.zoomFit = function() {
 
 Image.prototype._getAvailableSize = function() {
 	var parent = this._node.parentNode;
-	return [parent.offsetWidth, parent.offsetHeight]
+	return [parent.clientWidth, parent.clientHeight];
 }
 
 Image.prototype._onLoad = function(e) {

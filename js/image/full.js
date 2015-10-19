@@ -5,7 +5,7 @@ var Image = function() {
 	Base.call(this);
 	new Magnifier(this);
 }
-Image.prototype = Object.create(Base.prototype);
+Object.assign(Image.prototype, Base.prototype);
 
 Image.prototype.load = function(path) {
 	if (path == this.getPath()) { return; }

@@ -4,6 +4,7 @@ var emitter = new (require("events").EventEmitter)();
 
 var extensions = ["jpg", "jpeg", "png", "gif", "svg"];
 var files = [];
+var currentPath = "";
 
 function filterItems(items, dir) {
 	files = items.filter(function(item) {
@@ -52,8 +53,12 @@ exports.getNext = function(path) {
 }
 
 exports.load = function(dirPath) {
-	dirPath = path.resolve(dirPath || "");
-	fs.readdir(dirPath, function(err, items) {
-		filterItems(items, dirPath);
+	if (dirPath == currentPath) {
+		emitter.emit("listed", files); // FIXME 
+	}
+
+	currentPath = path.resolve(dirPath || "");
+	fs.readdir(currentPath, function(err, items) {
+		filterItems(items, currentPath);
 	});
 }

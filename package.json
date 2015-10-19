@@ -3,6 +3,9 @@
 	"version" : "0.0.0",
 	"main"    : "index.html",
 	"window"  : {
-		"toolbar": false
+		"toolbar": false,
+		"fullscreen": true,
+		"width": 800,
+		"height": 600
 	}
 }

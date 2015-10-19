@@ -1,0 +1,45 @@
+html, body {
+	height: 100%;
+}
+
+body {
+	margin: 0;
+	font-family: sans-serif;
+}
+
+#full {
+	background-color: #000;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+img {
+	position: absolute;
+}
+
+figure {
+	position: relative;
+	float: left;
+	width: 200px;
+	height: 150px;
+	cursor: pointer;
+	border-radius: 5px;
+	border: 3px solid rgba(0, 0, 0, 0.2);
+	margin: 14px;
+}
+
+figcaption {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	text-align: center;
+	line-height: 1.4;
+}
+
+figure.focus {
+	border-color: rgba(30, 30, 255, 0.5);
+	border-width: 5px;
+	margin: 12px;
+}
